@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marmite Royale — Restaurant Gastronomique Africain · Niamey</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --gold: #B8922A;
+  --gold-light: #D4AA4A;
+  --gold-pale: #EDD98A;
+  --gold-muted: rgba(184,146,42,0.15);
+  --dark: #0F0A06;
+  --dark-2: #1A1008;
+  --dark-3: #251810;
+  --brown: #3A2215;
+  --brown-mid: #5C3820;
+  --cream: #F8F0E3;
+  --cream-dark: #EDE0CC;
+  --text-light: rgba(248,240,227,0.9);
+  --text-muted: rgba(248,240,227,0.45);
+  --text-brown: #6B4226;
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  background: var(--cream);
+  color: var(--brown);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--dark); }
+::-webkit-scrollbar-thumb { background: var(--gold); }
+
+/* ─── LOADER ─── */
+#loader {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--dark);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+#loader.hidden { opacity: 0; visibility: hidden; }
+.loader-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem; color: var(--gold);
+  letter-spacing: 0.1em;
+  opacity: 0;
+  animation: loaderFade 0.6s ease 0.3s forwards;
+}
+.loader-sub {
+  font-family: 'Jost', sans-serif;
+  font-weight: 200; font-size: 0.65rem;
+  letter-spacing: 0.45em; text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+  opacity: 0;
+  animation: loaderFade 0.6s ease 0.6s forwards;
+}
+.loader-bar {
+  width: 120px; height: 1px;
+  background: rgba(184,146,42,0.2);
+  margin-top: 2rem; overflow: hidden;
+  opacity: 0; animation: loaderFade 0.6s ease 0.8s forwards;
+}
+.loader-bar-fill {
+  height: 100%; width: 0;
+  background: var(--gold);
+  animation: barFill 1.2s ease 1s forwards;
+}
+@keyframes loaderFade { to { opacity: 1; } }
+@keyframes barFill { to { width: 100%; } }
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 5vw; height: 72px;
+  transition: background 0.4s, box-shadow 0.4s;
+}
+nav.scrolled {
+  background: rgba(15,10,6,0.97);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 rgba(184,146,42,0.2);
+}
+.nav-brand {
+  display: flex; flex-direction: column; line-height: 1;
+}
+.nav-brand-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem; color: var(--gold);
+  letter-spacing: 0.06em;
+}
+.nav-brand-tag {
+  font-size: 0.55rem; letter-spacing: 0.4em;
+  text-transform: uppercase; color: var(--text-muted);
+  margin-top: 2px;
+}
+.nav-links {
+  display: flex; gap: 2.8rem; list-style: none;
+}
+.nav-links a {
+  font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--text-muted); text-decoration: none;
+  transition: color 0.3s; position: relative; padding-bottom: 2px;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: 0; left: 0;
+  width: 0; height: 1px; background: var(--gold);
+  transition: width 0.3s;
+}
+.nav-links a:hover { color: var(--gold-pale); }
+.nav-links a:hover::after { width: 100%; }
+.nav-cta {
+  font-family: 'Jost', sans-serif; font-weight: 400;
+  font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--dark); background: var(--gold);
+  padding: 0.65rem 1.6rem; border: none; cursor: pointer;
+  transition: all 0.3s; clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+}
+.nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh;
+  background: var(--dark);
+  position: relative; overflow: hidden;
+  display: flex; align-items: center;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 50%, rgba(92,56,32,0.35) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(184,146,42,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 10%, rgba(184,146,42,0.05) 0%, transparent 60%);
+}
+.hero-grain {
+  position: absolute; inset: 0; opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px;
+}
+.hero-lines {
+  position: absolute; inset: 0; pointer-events: none;
+}
+.hero-line {
+  position: absolute; background: linear-gradient(90deg, transparent, rgba(184,146,42,0.12), transparent);
+  height: 1px; width: 100%;
+}
+.hero-line:nth-child(1) { top: 25%; animation: linePulse 4s ease infinite; }
+.hero-line:nth-child(2) { top: 75%; animation: linePulse 4s ease 1.5s infinite; }
+@keyframes linePulse { 0%,100%{opacity:0.3} 50%{opacity:0.8} }
+
+.hero-content {
+  position: relative; z-index: 2;
+  padding: 0 5vw; padding-top: 72px;
+  max-width: 900px;
+}
+.hero-eyebrow {
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 2rem;
+  opacity: 0; animation: slideUp 0.8s ease 2.4s forwards;
+}
+.hero-eyebrow-line { width: 40px; height: 1px; background: var(--gold); opacity: 0.6; }
+.hero-eyebrow-text {
+  font-size: 0.62rem; letter-spacing: 0.45em; text-transform: uppercase;
+  color: var(--gold-light);
+}
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3.5rem, 8vw, 7rem);
+  font-weight: 400; line-height: 1.0;
+  color: var(--cream);
+  opacity: 0; animation: slideUp 0.9s ease 2.6s forwards;
+}
+.hero-title em {
+  font-style: italic; color: var(--gold);
+  display: block;
+}
+.hero-desc {
+  font-family: 'Cormorant', serif;
+  font-size: 1.25rem; font-style: italic;
+  color: var(--text-muted); line-height: 1.8;
+  max-width: 480px; margin-top: 1.8rem;
+  opacity: 0; animation: slideUp 0.9s ease 2.8s forwards;
+}
+.hero-actions {
+  display: flex; align-items: center; gap: 2rem;
+  margin-top: 3rem;
+  opacity: 0; animation: slideUp 0.9s ease 3s forwards;
+}
+.btn-primary {
+  font-family: 'Jost', sans-serif; font-size: 0.7rem;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  background: var(--gold); color: var(--dark);
+  padding: 1rem 2.5rem; border: none; cursor: pointer;
+  transition: all 0.3s; font-weight: 500;
+  clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+}
+.btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+.btn-ghost {
+  font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--text-muted); background: none; border: none; cursor: pointer;
+  transition: color 0.3s; display: flex; align-items: center; gap: 0.7rem;
+}
+.btn-ghost:hover { color: var(--gold-pale); }
+.btn-ghost-line { width: 30px; height: 1px; background: currentColor; }
+
+.hero-scroll-indicator {
+  position: absolute; bottom: 2.5rem; right: 5vw; z-index: 2;
+  display: flex; flex-direction: column; align-items: center; gap: 0.8rem;
+  opacity: 0; animation: fadeIn 1s ease 3.5s forwards;
+}
+.scroll-text { font-size: 0.58rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--text-muted); writing-mode: vertical-rl; }
+.scroll-track { width: 1px; height: 60px; background: rgba(184,146,42,0.2); position: relative; overflow: hidden; }
+.scroll-dot { position: absolute; top: -6px; left: 0; width: 1px; height: 30%; background: var(--gold); animation: scrollAnim 2s ease infinite; }
+@keyframes scrollAnim { 0%{top:-30%} 100%{top:130%} }
+
+@keyframes slideUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeIn { to{opacity:1} }
+
+/* ─── SECTION COMMONS ─── */
+.section-label {
+  font-size: 0.6rem; letter-spacing: 0.5em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.section-label::before { content: ''; width: 24px; height: 1px; background: var(--gold); opacity: 0.6; }
+.section-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 400;
+  line-height: 1.15;
+}
+.section-heading em { font-style: italic; color: var(--gold); }
+
+/* ─── BANNER STRIP ─── */
+.banner-strip {
+  background: var(--gold);
+  padding: 0.9rem 0; overflow: hidden;
+  white-space: nowrap;
+}
+.banner-inner {
+  display: inline-flex; gap: 0;
+  animation: marquee 20s linear infinite;
+}
+.banner-item {
+  font-family: 'Cormorant', serif; font-style: italic;
+  font-size: 1.05rem; color: var(--dark);
+  padding: 0 2.5rem; opacity: 0.85;
+}
+.banner-dot { color: var(--dark); opacity: 0.4; padding: 0 0.5rem; }
+@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* ─── ABOUT ─── */
+.about {
+  display: grid; grid-template-columns: 1fr 1fr;
+  min-height: 85vh;
+}
+.about-visual {
+  background: var(--dark-3);
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  min-height: 500px;
+}
+.about-visual-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(92,56,32,0.4) 0%, var(--dark-3) 70%);
+}
+.about-visual-symbol {
+  font-family: 'Playfair Display', serif;
+  font-size: 14rem; color: rgba(184,146,42,0.06);
+  line-height: 1; user-select: none; position: relative; z-index: 1;
+}
+.about-visual-badge {
+  position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%);
+  text-align: center; z-index: 2;
+}
+.about-visual-badge-line { width: 1px; height: 50px; background: linear-gradient(180deg,transparent,var(--gold)); margin: 0 auto 1rem; }
+.about-visual-badge-text {
+  font-family: 'Cormorant', serif; font-style: italic;
+  color: var(--gold-light); font-size: 1rem; letter-spacing: 0.08em;
+}
+.about-corners span {
+  position: absolute; width: 30px; height: 30px;
+  border-color: rgba(184,146,42,0.3); border-style: solid;
+}
+.about-corners span:nth-child(1) { top: 2rem; left: 2rem; border-width: 1px 0 0 1px; }
+.about-corners span:nth-child(2) { top: 2rem; right: 2rem; border-width: 1px 1px 0 0; }
+.about-corners span:nth-child(3) { bottom: 2rem; left: 2rem; border-width: 0 0 1px 1px; }
+.about-corners span:nth-child(4) { bottom: 2rem; right: 2rem; border-width: 0 1px 1px 0; }
+
+.about-content {
+  padding: 7rem 5vw 7rem 5vw;
+  background: var(--cream);
+  display: flex; flex-direction: column; justify-content: center;
+}
+.about-text {
+  color: var(--text-brown); line-height: 1.9; font-size: 0.95rem;
+  margin-bottom: 1.2rem; max-width: 480px;
+}
+.about-stats {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 2rem; margin-top: 3rem;
+  padding-top: 3rem;
+  border-top: 1px solid rgba(58,34,21,0.12);
+}
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem; color: var(--gold); line-height: 1;
+  margin-bottom: 0.3rem;
+}
+.stat-label {
+  font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--text-brown); opacity: 0.7;
+}
+
+/* ─── SPECIALITES ─── */
+.specialites {
+  background: var(--dark);
+  padding: 8rem 5vw;
+  position: relative; overflow: hidden;
+}
+.specialites-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 50% at 50% 50%, rgba(92,56,32,0.2) 0%, transparent 70%);
+}
+.specialites-header {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-bottom: 5rem; position: relative;
+}
+.specialites-heading { color: var(--cream); }
+.specialites-note {
+  font-family: 'Cormorant', serif; font-style: italic;
+  color: var(--text-muted); font-size: 1rem; max-width: 280px; text-align: right; line-height: 1.6;
+}
+
+.spec-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.5px; background: rgba(184,146,42,0.15);
+  position: relative;
+}
+.spec-card {
+  background: var(--dark-2);
+  padding: 3rem 2.5rem;
+  position: relative; overflow: hidden;
+  transition: background 0.4s;
+  cursor: default;
+}
+.spec-card::before {
+  content: ''; position: absolute;
+  bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0; transition: opacity 0.4s;
+}
+.spec-card:hover { background: var(--dark-3); }
+.spec-card:hover::before { opacity: 1; }
+.spec-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.75rem; color: rgba(184,146,42,0.3);
+  letter-spacing: 0.2em; margin-bottom: 2rem;
+}
+.spec-icon { font-size: 2rem; margin-bottom: 1.5rem; }
+.spec-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem; color: var(--cream);
+  margin-bottom: 0.8rem; line-height: 1.3;
+}
+.spec-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.7; }
+.spec-tag {
+  display: inline-block; margin-top: 1.5rem;
+  font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--gold); border: 1px solid rgba(184,146,42,0.3);
+  padding: 0.3rem 0.8rem;
+}
+
+/* ─── MENU ─── */
+.menu-section {
+  padding: 8rem 5vw;
+  background: var(--cream-dark);
+}
+.menu-tabs {
+  display: flex; gap: 0; margin-top: 3.5rem; margin-bottom: 3rem;
+  border-bottom: 1px solid rgba(58,34,21,0.12);
+}
+.menu-tab {
+  font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase;
+  padding: 1rem 2rem; background: none; border: none;
+  color: var(--text-brown); cursor: pointer; opacity: 0.5;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  transition: all 0.3s; font-family: 'Jost', sans-serif;
+}
+.menu-tab.active { opacity: 1; color: var(--gold); border-bottom-color: var(--gold); }
+.menu-tab:hover { opacity: 0.85; }
+.menu-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+.menu-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 1.6rem 2rem;
+  border-bottom: 1px solid rgba(58,34,21,0.08);
+  transition: background 0.2s;
+}
+.menu-row:hover { background: rgba(184,146,42,0.04); }
+.menu-row:nth-child(2n-1) { border-right: 1px solid rgba(58,34,21,0.08); }
+.menu-row-left { flex: 1; padding-right: 1rem; }
+.menu-row-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem; color: var(--brown); margin-bottom: 0.25rem;
+}
+.menu-row-desc { font-size: 0.78rem; color: var(--text-brown); font-style: italic; opacity: 0.7; }
+.menu-row-price {
+  font-family: 'Cormorant', serif; font-size: 1.05rem;
+  color: var(--gold); white-space: nowrap; font-weight: 400;
+}
+
+/* ─── EXPERIENCE ─── */
+.experience {
+  background: var(--dark);
+  display: grid; grid-template-columns: 1fr 1fr;
+}
+.experience-left {
+  padding: 8rem 5vw;
+  background: var(--dark-3);
+  position: relative; overflow: hidden;
+}
+.exp-quote {
+  font-family: 'Cormorant', serif; font-style: italic;
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  color: var(--cream); line-height: 1.6;
+  margin: 2.5rem 0;
+  position: relative; z-index: 1;
+}
+.exp-quote-mark {
+  font-family: 'Playfair Display', serif;
+  font-size: 8rem; color: rgba(184,146,42,0.08);
+  line-height: 1; position: absolute; top: -1rem; left: -1rem;
+  font-style: normal;
+}
+.exp-attribution {
+  font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--gold); opacity: 0.7;
+}
+.exp-features {
+  display: flex; flex-direction: column; gap: 2rem; margin-top: 3rem;
+}
+.exp-feature {
+  display: flex; gap: 1.5rem; align-items: flex-start;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(184,146,42,0.1);
+}
+.exp-feature:last-child { border-bottom: none; }
+.exp-feature-icon {
+  width: 44px; height: 44px; min-width: 44px;
+  border: 1px solid rgba(184,146,42,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; color: var(--gold);
+}
+.exp-feature-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem; color: var(--cream); margin-bottom: 0.4rem;
+}
+.exp-feature-desc { font-size: 0.83rem; color: var(--text-muted); line-height: 1.7; }
+
+.experience-right {
+  padding: 8rem 5vw;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.exp-grid-right {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1.5px; background: rgba(184,146,42,0.15);
+  margin-top: 3rem;
+}
+.exp-stat-box {
+  background: var(--dark-2);
+  padding: 2.5rem 2rem; text-align: center;
+  transition: background 0.3s;
+}
+.exp-stat-box:hover { background: var(--dark-3); }
+.exp-stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.8rem; color: var(--gold); line-height: 1;
+  margin-bottom: 0.5rem;
+}
+.exp-stat-label { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); }
+
+/* ─── RESERVATION & CONTACT ─── */
+.contact-section {
+  background: var(--cream);
+  padding: 8rem 5vw;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+}
+.contact-left { }
+.contact-info-grid {
+  margin-top: 3rem; display: flex; flex-direction: column; gap: 1.8rem;
+}
+.info-block { }
+.info-label {
+  font-size: 0.6rem; letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 0.5rem;
+}
+.info-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem; color: var(--brown); line-height: 1.5;
+}
+.info-val a { color: var(--brown); text-decoration: none; transition: color 0.3s; }
+.info-val a:hover { color: var(--gold); }
+.info-divider { height: 1px; background: rgba(58,34,21,0.1); margin: 0.5rem 0; }
+
+.contact-right { }
+.reservation-form { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 3rem; }
+.form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+.form-label {
+  font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--text-brown); opacity: 0.7;
+}
+.form-control {
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(58,34,21,0.15);
+  background: white;
+  font-family: 'Jost', sans-serif; font-size: 0.9rem;
+  color: var(--brown); outline: none;
+  transition: border-color 0.3s;
+  appearance: none;
+}
+.form-control:focus { border-color: var(--gold); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-submit {
+  margin-top: 0.5rem; padding: 1.1rem;
+  background: var(--brown); color: var(--gold-pale);
+  border: none; cursor: pointer;
+  font-family: 'Jost', sans-serif; font-weight: 500;
+  font-size: 0.72rem; letter-spacing: 0.3em; text-transform: uppercase;
+  transition: all 0.3s;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+}
+.form-submit:hover { background: var(--gold); color: var(--dark); }
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--dark);
+  border-top: 1px solid rgba(184,146,42,0.15);
+}
+.footer-main {
+  padding: 5rem 5vw 4rem;
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 4rem;
+}
+.footer-brand-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem; color: var(--gold);
+  letter-spacing: 0.06em; margin-bottom: 0.5rem;
+}
+.footer-brand-tag {
+  font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--text-muted); margin-bottom: 1.5rem;
+}
+.footer-brand-desc { font-size: 0.83rem; color: var(--text-muted); line-height: 1.8; max-width: 260px; }
+.footer-col-title {
+  font-size: 0.6rem; letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 1.5rem;
+}
+.footer-col-links { display: flex; flex-direction: column; gap: 0.8rem; }
+.footer-col-links a {
+  font-size: 0.83rem; color: var(--text-muted);
+  text-decoration: none; transition: color 0.3s;
+}
+.footer-col-links a:hover { color: var(--gold-pale); }
+.footer-bottom {
+  padding: 1.5rem 5vw;
+  border-top: 1px solid rgba(184,146,42,0.08);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.footer-copy { font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.1em; }
+.footer-social { display: flex; gap: 1.5rem; }
+.footer-social a {
+  font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(184,146,42,0.5); text-decoration: none; transition: color 0.3s;
+}
+.footer-social a:hover { color: var(--gold); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .about, .experience, .contact-section { grid-template-columns: 1fr; }
+  .spec-grid { grid-template-columns: 1fr; }
+  .menu-list { grid-template-columns: 1fr; }
+  .menu-row:nth-child(2n-1) { border-right: none; }
+  .footer-main { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+  .hero-title { font-size: clamp(2.8rem, 10vw, 5rem); }
+  .exp-grid-right { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-logo">Marmite Royale</div>
+  <div class="loader-sub">Restaurant Gastronomique · Niamey</div>
+  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+</div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="nav-brand">
+    <div class="nav-brand-name">Marmite Royale</div>
+    <div class="nav-brand-tag">Restaurant Gastronomique · Niamey</div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#about">Histoire</a></li>
+    <li><a href="#specialites">Spécialités</a></li>
+    <li><a href="#menu">La Carte</a></li>
+    <li><a href="#experience">Expérience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+    Réserver
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-lines">
+    <div class="hero-line"></div>
+    <div class="hero-line"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-line"></div>
+      <span class="hero-eyebrow-text">Cuisine Africaine & Nigérienne d'Exception</span>
+    </div>
+    <h1 class="hero-title">
+      L'Art de la<br>
+      <em>Marmite Royale</em>
+    </h1>
+    <p class="hero-desc">
+      Une table gastronomique au cœur de Niamey, où les recettes ancestrales du Niger rencontrent l'excellence culinaire contemporaine.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">
+        Découvrir la Carte
+      </button>
+      <button class="btn-ghost" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
+        <span class="btn-ghost-line"></span>
+        Notre Histoire
+      </button>
+    </div>
+  </div>
+  <div class="hero-scroll-indicator">
+    <div class="scroll-track"><div class="scroll-dot"></div></div>
+    <div class="scroll-text">Défiler</div>
+  </div>
+</section>
+
+<!-- BANNER STRIP -->
+<div class="banner-strip">
+  <div class="banner-inner" id="bannerInner">
+    <span class="banner-item">Cuisine Nigérienne</span><span class="banner-dot">✦</span>
+    <span class="banner-item">Saveurs Authentiques</span><span class="banner-dot">✦</span>
+    <span class="banner-item">Ouvert 7j/7 · 8h – 23h</span><span class="banner-dot">✦</span>
+    <span class="banner-item">Niamey, Niger</span><span class="banner-dot">✦</span>
+    <span class="banner-item">Réservation : +227 90 32 19 68</span><span class="banner-dot">✦</span>
+    <span class="banner-item">Cuisine Nigérienne</span><span class="banner-dot">✦</span>
+    <span class="banner-item">Saveurs Authentiques</span><span class="banner-dot">✦</span>
+    <span class="banner-item">Ouvert 7j/7 · 8h – 23h</span><span class="banner-dot">✦</span>
+    <span class="banner-item">Niamey, Niger</span><span class="banner-dot">✦</span>
+    <span class="banner-item">Réservation : +227 90 32 19 68</span><span class="banner-dot">✦</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+<div class="about">
+  <div class="about-visual">
+    <div class="about-visual-bg"></div>
+    <div class="about-corners">
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <div class="about-visual-symbol">♛</div>
+    <div class="about-visual-badge">
+      <div class="about-visual-badge-line"></div>
+      <div class="about-visual-badge-text">Authenticité & Excellence</div>
+    </div>
+  </div>
+  <div class="about-content">
+    <div class="section-label">Notre Histoire</div>
+    <h2 class="section-heading">Une cuisine née<br><em>de nos racines</em></h2>
+    <p class="about-text" style="margin-top: 2rem;">
+      La Marmite Royale est bien plus qu'un restaurant — c'est un voyage sensoriel au cœur du patrimoine culinaire nigérien et ouest-africain. Fondée avec la passion de partager notre héritage, nous proposons une expérience gastronomique unique à Niamey.
+    </p>
+    <p class="about-text">
+      Chaque plat est une célébration : des épices soigneusement sélectionnées, des produits locaux de première qualité, et des recettes transmises avec amour à travers les générations. Ici, la tradition se savoure avec raffinement.
+    </p>
+    <div class="about-stats">
+      <div>
+        <div class="stat-num">5+</div>
+        <div class="stat-label">Ans d'expertise</div>
+      </div>
+      <div>
+        <div class="stat-num">15+</div>
+        <div class="stat-label">Plats signatures</div>
+      </div>
+      <div>
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Local & Frais</div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- SPECIALITES -->
+<section class="specialites" id="specialites">
+  <div class="specialites-bg"></div>
+  <div class="specialites-header">
+    <div>
+      <div class="section-label" style="color: var(--gold);">Ce que nous servons</div>
+      <h2 class="section-heading specialites-heading">Nos Spécialités</h2>
+    </div>
+    <p class="specialites-note">Des plats préparés avec soin, du matin jusqu'au soir, pour satisfaire toutes vos envies.</p>
+  </div>
+  <div class="spec-grid">
+    <div class="spec-card">
+      <div class="spec-num">01</div>
+      <div class="spec-icon">🍲</div>
+      <div class="spec-name">Plats Nigériens Traditionnels</div>
+      <div class="spec-desc">Recettes ancestrales du Niger — dambou, miyan taushe, tuwo shinkafa — préparées selon les méthodes d'antan avec des épices locales.</div>
+      <div class="spec-tag">Signature</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-num">02</div>
+      <div class="spec-icon">🥩</div>
+      <div class="spec-name">Grillades & Brochettes Royales</div>
+      <div class="spec-desc">Viandes marinées aux épices sahéliennes, grillées à la perfection. Brochettes de mouton, bœuf et poulet accompagnées de sauces maison.</div>
+      <div class="spec-tag">Incontournable</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-num">03</div>
+      <div class="spec-icon">🐟</div>
+      <div class="spec-name">Poissons & Fruits de Mer</div>
+      <div class="spec-desc">Poissons frais du fleuve Niger préparés en thiéboudienne, grillés ou en sauce. Une ode aux richesses aquatiques de la région.</div>
+      <div class="spec-tag">Fraîcheur</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-num">04</div>
+      <div class="spec-icon">☀️</div>
+      <div class="spec-name">Petit-Déjeuner Africain</div>
+      <div class="spec-desc">Commencez votre journée royalement — bouillie de mil, pain traditionnel, œufs, thé à la menthe et jus naturels de fruits sahéliens.</div>
+      <div class="spec-tag">Dès 8h</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-num">05</div>
+      <div class="spec-icon">🌿</div>
+      <div class="spec-name">Boissons Naturelles</div>
+      <div class="spec-desc">Bissap, gingembre pressé, détox baobab, jus de tamarin, thé touareg… Des saveurs authentiques du terroir servies fraiches.</div>
+      <div class="spec-tag">Maison</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-num">06</div>
+      <div class="spec-icon">🎉</div>
+      <div class="spec-name">Événements & Banquets</div>
+      <div class="spec-desc">Mariages, cérémonies, réunions d'affaires — nous organisons vos événements avec un service traiteur sur mesure et un accueil royal.</div>
+      <div class="spec-tag">Sur demande</div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="menu-section" id="menu">
+  <div class="section-label">Gastronomie</div>
+  <h2 class="section-heading">La Carte <em>Royale</em></h2>
+  <div class="menu-tabs">
+    <button class="menu-tab active" onclick="switchTab(this,'entrees')">Entrées</button>
+    <button class="menu-tab" onclick="switchTab(this,'plats')">Plats Principaux</button>
+    <button class="menu-tab" onclick="switchTab(this,'desserts')">Desserts</button>
+    <button class="menu-tab" onclick="switchTab(this,'boissons')">Boissons</button>
+  </div>
+  <div class="menu-list" id="menuList"></div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="experience" id="experience">
+  <div class="experience-left">
+    <div class="section-label" style="color: var(--gold);">L'Expérience</div>
+    <h2 class="section-heading" style="color: var(--cream);">Ce qui nous<br><em>distingue</em></h2>
+    <blockquote class="exp-quote">
+      <div class="exp-quote-mark">"</div>
+      « Ici, chaque repas est une célébration. Chaque saveur, une mémoire vivante de l'Afrique de l'Ouest. »
+    </blockquote>
+    <div class="exp-attribution">— L'équipe Marmite Royale</div>
+    <div class="exp-features">
+      <div class="exp-feature">
+        <div class="exp-feature-icon">♨</div>
+        <div>
+          <div class="exp-feature-name">Cuisine Authentique</div>
+          <div class="exp-feature-desc">Recettes nigériennes & ouest-africaines préparées avec des épices sélectionnées à la main et des produits frais du marché local chaque matin.</div>
+        </div>
+      </div>
+      <div class="exp-feature">
+        <div class="exp-feature-icon">✦</div>
+        <div>
+          <div class="exp-feature-name">Cadre Raffiné</div>
+          <div class="exp-feature-desc">Un décor qui fusionne l'artisanat africain et l'élégance contemporaine, pour une ambiance chaleureuse et inoubliable.</div>
+        </div>
+      </div>
+      <div class="exp-feature">
+        <div class="exp-feature-icon">♛</div>
+        <div>
+          <div class="exp-feature-name">Service d'Exception</div>
+          <div class="exp-feature-desc">Une équipe passionnée, attentive à chaque détail, qui fait de votre visite un moment unique du premier sourire au dernier au revoir.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="experience-right">
+    <div class="section-label" style="color: var(--gold);">En chiffres</div>
+    <h2 class="section-heading" style="color: var(--cream);">La <em>Royale</em><br>en chiffres</h2>
+    <div class="exp-grid-right">
+      <div class="exp-stat-box">
+        <div class="exp-stat-num">12+</div>
+        <div class="exp-stat-label">Années d'expérience</div>
+      </div>
+      <div class="exp-stat-box">
+        <div class="exp-stat-num">40+</div>
+        <div class="exp-stat-label">Plats au menu</div>
+      </div>
+      <div class="exp-stat-box">
+        <div class="exp-stat-num">7j/7</div>
+        <div class="exp-stat-label">Ouvert toute l'année</div>
+      </div>
+      <div class="exp-stat-box">
+        <div class="exp-stat-num">★★★★</div>
+        <div class="exp-stat-label">Satisfaction client</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT & RESERVATION -->
+<section class="contact-section" id="contact">
+  <div class="contact-left">
+    <div class="section-label">Informations</div>
+    <h2 class="section-heading">Venez nous<br><em>rendre visite</em></h2>
+    <div class="contact-info-grid">
+      <div class="info-block">
+        <div class="info-label">Adresse</div>
+        <div class="info-val">Avenue du Fleuve, Quartier Plateau<br>Niamey, République du Niger</div>
+      </div>
+      <div class="info-divider"></div>
+      <div class="info-block">
+        <div class="info-label">Téléphone & WhatsApp</div>
+        <div class="info-val">
+          <a href="tel:+22790321968">+227 90 32 19 68</a>
+        </div>
+      </div>
+      <div class="info-divider"></div>
+      <div class="info-block">
+        <div class="info-label">Email</div>
+        <div class="info-val">
+          <a href="mailto:marmiteroyale@.ne">contact@marmiteroyale.ne</a>
+        </div>
+      </div>
+      <div class="info-divider"></div>
+      <div class="info-block">
+        <div class="info-label">Horaires d'ouverture</div>
+        <div class="info-val">Tous les jours<br>08h00 – 23h00</div>
+      </div>
+      <div class="info-divider"></div>
+      <div class="info-block">
+        <div class="info-label">Contact rapide</div>
+        <div class="info-val">
+          <a href="https://wa.me/22790321968" target="_blank" style="color: var(--gold); font-size: 0.88rem; letter-spacing: 0.05em;">
+            → Écrire sur WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-right">
+    <div class="section-label">Réservation</div>
+    <h2 class="section-heading">Réserver<br><em>votre table</em></h2>
+    <div class="reservation-form">
+      <div class="form-group">
+        <label class="form-label">Nom complet</label>
+        <input class="form-control" type="text" placeholder="Votre nom et prénom">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Téléphone</label>
+          <input class="form-control" type="tel" placeholder="+227 XX XX XX XX">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-control" type="email" placeholder="votre@email.com">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Date</label>
+          <input class="form-control" type="date">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Heure</label>
+          <input class="form-control" type="time" value="12:00">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nombre de personnes</label>
+        <select class="form-control">
+          <option value="">Sélectionner…</option>
+          <option>1 – 2 personnes</option>
+          <option>3 – 4 personnes</option>
+          <option>5 – 6 personnes</option>
+          <option>7 – 10 personnes</option>
+          <option>11 personnes et plus (groupe)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Occasion spéciale (facultatif)</label>
+        <input class="form-control" type="text" placeholder="Anniversaire, mariage, réunion…">
+      </div>
+      <button class="form-submit" id="submitBtn">
+        Confirmer la Réservation →
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-main">
+    <div>
+      <div class="footer-brand-name">Marmite Royale</div>
+      <div class="footer-brand-tag">Restaurant Gastronomique Africain · Niamey</div>
+      <p class="footer-brand-desc">Une expérience culinaire authentique au cœur du Niger, où tradition et excellence se rencontrent à chaque repas.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigation</div>
+      <div class="footer-col-links">
+        <a href="#about">Notre Histoire</a>
+        <a href="#specialites">Spécialités</a>
+        <a href="#menu">La Carte</a>
+        <a href="#experience">Expérience</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Contact</div>
+      <div class="footer-col-links">
+        <a href="tel:+22790321968">+227 90 32 19 68</a>
+        <a href="mailto:contact@marmiteroyale.ne">contact@marmiteroyale.ne</a>
+        <a href="https://wa.me/22790321968" target="_blank">WhatsApp</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Horaires</div>
+      <div class="footer-col-links">
+        <a href="#">Lun – Dim</a>
+        <a href="#">08h00 – 23h00</a>
+        <a href="#contact">Réserver une table</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 Marmite Royale · Niamey, Niger · Tous droits réservés</div>
+    <div class="footer-social">
+      <a href="#">Facebook</a>
+      <a href="#">Instagram</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Loader
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('hidden');
+  }, 2600);
+});
+
+// Nav scroll
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('mainNav');
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// Menu data
+const menuData = {
+  entrees: [
+    { name: "Salade de Fonio", desc: "Fonio, légumes frais, vinaigrette citron-gingembre", price: "3 500 F CFA" },
+    { name: "Brochettes de Mouton", desc: "Marinées aux épices sahéliennes, sauce pimentée", price: "4 500 F CFA" },
+    { name: "Soupe Miyan Taushe", desc: "Courge, arachide, viande, épices traditionnelles", price: "3 000 F CFA" },
+    { name: "Beignets de Haricots", desc: "Kosei nigérien, sauce tomate fraîche maison", price: "2 500 F CFA" },
+  ],
+  plats: [
+    { name: "Tuwo Shinkafa Royal", desc: "Riz pilé onctueux, miyan kuka, viande de bœuf", price: "7 500 F CFA" },
+    { name: "Thiéboudienne du Fleuve", desc: "Poisson du Niger, riz brisé, légumes du marché", price: "8 000 F CFA" },
+    { name: "Ragout de Mouton Sahélien", desc: "Mijoté 4h aux épices, couscous de mil", price: "8 500 F CFA" },
+    { name: "Poulet Rôti aux Herbes", desc: "Citron, thym sauvage, riz parfumé aux épices", price: "7 000 F CFA" },
+    { name: "Mafé de Bœuf", desc: "Sauce arachide crémeuse, ignames et carottes", price: "7 500 F CFA" },
+    { name: "Dambou Maison", desc: "Boule de farine de mil, sauce feuilles de baobab", price: "6 500 F CFA" },
+  ],
+  desserts: [
+    { name: "Thiakry Sucré", desc: "Semoule de mil fermentée, yaourt, miel de fleurs", price: "2 500 F CFA" },
+    { name: "Beignets au Miel de Datte", desc: "Pâte dorée croustillante, miel artisanal", price: "2 000 F CFA" },
+    { name: "Mangue Rôtie", desc: "Mangue du Sahel, sucre de canne, glace vanille", price: "3 000 F CFA" },
+    { name: "Fondant Cacao-Kola", desc: "Chocolat noir intense, pralin d'arachide", price: "3 500 F CFA" },
+  ],
+  boissons: [
+    { name: "Bissap Royal", desc: "Hibiscus, gingembre frais, citron vert, menthe", price: "1 500 F CFA" },
+    { name: "Jus de Gingembre Pressé", desc: "Gingembre frais, citron, sucre de canne", price: "1 500 F CFA" },
+    { name: "Détox Baobab", desc: "Poudre de baobab bio, citron, eau de coco", price: "2 000 F CFA" },
+    { name: "Thé Touareg à la Menthe", desc: "Thé vert saharien, menthe fraîche, pain de sucre", price: "1 000 F CFA" },
+    { name: "Jus de Tamarin", desc: "Tamarin naturel, sucre, épices légères", price: "1 200 F CFA" },
+    { name: "Eau minérale / Gazeuse", desc: "Eau fraîche servie avec citron et menthe", price: "500 F CFA" },
+  ]
+};
+
+function switchTab(btn, cat) {
+  document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderMenu(cat);
+}
+
+function renderMenu(cat) {
+  const list = document.getElementById('menuList');
+  list.innerHTML = menuData[cat].map(item => `
+    <div class="menu-row">
+      <div class="menu-row-left">
+        <div class="menu-row-name">${item.name}</div>
+        <div class="menu-row-desc">${item.desc}</div>
+      </div>
+      <div class="menu-row-price">${item.price}</div>
+    </div>
+  `).join('');
+}
+
+renderMenu('entrees');
+
+// Reservation button
+document.getElementById('submitBtn').addEventListener('click', function() {
+  this.textContent = '✓ Réservation Envoyée — Nous vous contactons bientôt';
+  this.style.background = 'var(--gold)';
+  this.style.color = 'var(--dark)';
+  setTimeout(() => {
+    this.textContent = 'Confirmer la Réservation →';
+    this.style.background = '';
+    this.style.color = '';
+  }, 4000);
+});
+</script>
+</body>
+</html>
